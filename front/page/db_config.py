@@ -1,6 +1,6 @@
 db_config = {
     'user': 'root',
-    'password': 'qwe20031221',
+    'password': 'qwe',
     'host': 'localhost',
     'database': 'user_db'
 }

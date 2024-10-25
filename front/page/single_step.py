@@ -55,7 +55,7 @@ def project(vertices, axis):
 
 def use_single_step():
     # Streamlit前端
-    st.set_page_config(page_title="Ship Collision Simulation", layout="wide")
+    # st.set_page_config(page_title="Ship Collision Simulation", layout="wide")
     st.title("Ship Collision Simulation")
 
     # 用户输入参数

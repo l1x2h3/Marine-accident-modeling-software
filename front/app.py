@@ -4,14 +4,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 import plotly.express as px
 import plotly.graph_objects as go
-from coastline_simulation import simulate_map, plot_map_simulation
+from page.coastline_simulation import simulate_map, plot_map_simulation
 import mysql.connector
 import hashlib
 from PIL import Image
-from streamlit_authenticator import Authenticate
-from db_config import db_config
-from box_leaking import main_box_leaking
-from single_step import use_single_step
+from page.db_config import db_config
+from page.box_leaking import main_box_leaking
+from page.single_step import use_single_step
 
 # 加载图片
 coast_image = Image.open("fig/coast.png")
@@ -137,8 +136,9 @@ elif page == "登录":
         else:
             st.error("登录失败，请检查邮箱和密码")
 
-# if 'logged_in' in st.session_state and st.session_state['logged_in']:
-if 1:
+
+st.session_state['logged_in'] = True
+if 'logged_in' in st.session_state and st.session_state['logged_in']:
     if page == "航行条件分析与碰撞模拟":
         st.title("航行条件分析与碰撞模拟")
 
