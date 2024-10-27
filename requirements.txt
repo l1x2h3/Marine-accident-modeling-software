@@ -5,3 +5,4 @@ matplotlib
 plotly
 streamlit-authenticator 
 mysql-connector-python
+mysql
