@@ -28,7 +28,27 @@ weather_probabilities = {
     '暴风雨': 0.02
 }
 
-def calculate_collision_probability(d_sense_max, weather_factors, weather_probabilities, epsilon, t_react, v_ship, v_obj, d_init, N_samples):
+def point_in_polygon(point, polygon):
+    """判断点是否在多边形内"""
+    x, y = point
+    n = len(polygon)
+    inside = False
+
+    p1x, p1y = polygon[0]
+    for i in range(n + 1):
+        p2x, p2y = polygon[i % n]
+        if y > min(p1y, p2y):
+            if y <= max(p1y, p2y):
+                if x <= max(p1x, p2x):
+                    if p1y != p2y:
+                        xinters = (y - p1y) * (p2x - p1x) / (p2y - p1y) + p1x
+                    if p1x == p2x or x <= xinters:
+                        inside = not inside
+        p1x, p1y = p2x, p2y
+
+    return inside
+
+def calculate_collision_probability(d_sense_max, weather_factors, weather_probabilities, epsilon, t_react, v_ship, v_obj, d_init, N_samples, ship_shape, obj_shape):
     # 随机选择天气类型
     weather_type = np.random.choice(list(weather_factors.keys()), p=list(weather_probabilities.values()))
     
@@ -43,18 +63,13 @@ def calculate_collision_probability(d_sense_max, weather_factors, weather_probab
     
     # 判断是否会发生碰撞
     if d_collision <= d_sense + epsilon:
-        # 生成船只和动态物体的俯视图形状
-        ship_shape = np.array([[0, 0], [100, 0], [100, 20], [0, 20]])
-        obj_shape = np.array([[50, 0], [150, 0], [150, 20], [50, 20]])
-        
         # 随机采样点
         samples = np.random.uniform(low=[0, 0], high=[100, 20], size=(N_samples, 2))
         
         # 判断采样点是否在动态物体的俯视图范围内
         collision = False
         for sample in samples:
-            if np.any(np.all(np.logical_and(obj_shape[:, 0] <= sample[0], sample[0] <= obj_shape[:, 2]), axis=1)) and \
-               np.any(np.all(np.logical_and(obj_shape[:, 1] <= sample[1], sample[1] <= obj_shape[:, 3]), axis=1)):
+            if point_in_polygon(sample, obj_shape):
                 collision = True
                 break
         
@@ -71,8 +86,12 @@ v_obj = 5           # 动态物体速度（米/秒）
 d_init = 2000       # 初始距离（米）
 N_samples = 1000    # 采样次数
 
+# 定义船只和动态物体的俯视图形状
+ship_shape = np.array([[0, 0], [100, 0], [100, 20], [50, 40], [0, 20]])  # 五边形
+obj_shape = np.array([[50, 0], [150, 0], [150, 20], [100, 40], [50, 20]])  # 五边形
+
 # 计算碰撞概率
-collision_probability = calculate_collision_probability(d_sense_max, weather_factors, weather_probabilities, epsilon, t_react, v_ship, v_obj, d_init, N_samples)
+collision_probability = calculate_collision_probability(d_sense_max, weather_factors, weather_probabilities, epsilon, t_react, v_ship, v_obj, d_init, N_samples, ship_shape, obj_shape)
 
 # 输出结果
 if collision_probability:

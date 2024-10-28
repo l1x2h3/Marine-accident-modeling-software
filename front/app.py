@@ -11,6 +11,8 @@ from PIL import Image
 from page.db_config import db_config
 from page.box_leaking import main_box_leaking
 from page.single_step import use_single_step
+from page.page_enter import page_enter_part
+
 
 # 加载图片
 coast_image = Image.open("fig/coast.png")
@@ -92,19 +94,21 @@ def simulate_ships(num_ships, weather, ship_type, speed):
 # Streamlit应用
 st.set_page_config(layout="wide", page_title="航行模拟器", page_icon="fig/logo.png")
 
+
 # 添加网站名称和Logo
 st.title("航行模拟器")
 
 # 导航栏
 st.sidebar.title("导航栏")
-page = st.sidebar.selectbox("选择页面", ["注册", "登录", "航行条件分析与碰撞模拟", "地图模拟","漏水检测" , "单步模拟"])
+page = st.sidebar.selectbox("选择页面", ["主页","注册", "登录", "航行条件分析与碰撞模拟", "地图模拟","漏水检测" , "单步模拟"])
 
 # 背景图片
 
 
-
-
-if page == "注册":
+if page == "主页":
+    page_enter_part()
+    
+elif page == "注册":
     st.title("用户注册")
 
     # 注册表单
