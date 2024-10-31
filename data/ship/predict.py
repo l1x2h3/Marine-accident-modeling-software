@@ -23,7 +23,8 @@ def predict_collision_probability(input_params):
     
     return collision_probability
 
-if __name__ == "__main__":
+
+def get_res():
     print("请逐行输入以下参数：")
     input_params = []
     
@@ -41,3 +42,6 @@ if __name__ == "__main__":
         print(f"{col}: {value}")
     
     print(f"\n预测的碰撞概率: {collision_probability:.4f}")
+
+if __name__ == "__main__":
+    get_res()
