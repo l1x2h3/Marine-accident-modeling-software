@@ -1,32 +1,43 @@
-import xgboost as xgb
+import joblib
+import numpy as np
 import pandas as pd
-import sys
+
+# 加载标准化器
+scaler = joblib.load('data/ship/scaler.pkl')
 
 # 加载模型
-model = xgb.XGBClassifier()
-model.load_model('data/temp/xgboost_model.json')
+model = joblib.load('data/ship/best_collision_model.pkl')
 
-# 输入参数
-print("请输入以下参数（单位：米、米、米/秒、千克）：")
-visibility = float(input("可见度: "))
-distance = float(input("距离: "))
-speed = float(input("速度: "))
-mass = float(input("质量: "))
+# 定义输入参数的列名
+input_columns = ['d_sense_max', 'epsilon', 't_react', 'v_ship', 'v_obj', 'd_init', 'N_samples', 'bias_angle', 'time_interval']
 
-# 转换为DataFrame
-input_data = {
-    'visibility': [visibility],
-    'distance': [distance],
-    'speed': [speed],
-    'mass': [mass]
-}
-input_df = pd.DataFrame(input_data)
+def predict_collision_probability(input_params):
+    # 将输入参数转换为DataFrame
+    input_df = pd.DataFrame([input_params], columns=input_columns)
+    
+    # 标准化输入参数
+    input_scaled = scaler.transform(input_df)
+    
+    # 预测碰撞概率
+    collision_probability = model.predict(input_scaled)[0]
+    
+    return collision_probability
 
-# 预测
-prediction = model.predict_proba(input_df)
-
-# 输出结果
-collision_prob = prediction[0][1]
-print(f"预测结果：碰撞概率为 {collision_prob:.3f}")
-
-# 后续我们的model只需要load出来就行了
+if __name__ == "__main__":
+    print("请逐行输入以下参数：")
+    input_params = []
+    
+    # 逐行读取用户输入
+    for col in input_columns:
+        value = float(input(f"{col}: "))
+        input_params.append(value)
+    
+    # 预测碰撞概率
+    collision_probability = predict_collision_probability(input_params)
+    
+    # 打印输入参数和预测结果
+    print("\n输入参数：")
+    for col, value in zip(input_columns, input_params):
+        print(f"{col}: {value}")
+    
+    print(f"\n预测的碰撞概率: {collision_probability:.4f}")
