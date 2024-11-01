@@ -12,7 +12,8 @@ from page.db_config import db_config
 from page.box_leaking import main_box_leaking
 from page.single_step import use_single_step
 from page.page_enter import page_enter_part
-
+from page.gpt_api import use_api_part
+from data.ship.predict import get_res, predict_collision_probability
 
 # 加载图片
 coast_image = Image.open("fig/coast.png")
@@ -176,6 +177,38 @@ if 'logged_in' in st.session_state and st.session_state['logged_in']:
 
             fig.update_layout(title="船只轨迹与碰撞模拟", xaxis_title="X坐标", yaxis_title="Y坐标")
             st.plotly_chart(fig)
+        
+        # 智能分析模块
+        # 定义输入参数的列名
+        input_columns = ['d_sense_max', 'epsilon', 't_react', 'v_ship', 'v_obj', 'd_init', 'N_samples', 'bias_angle', 'time_interval']
+
+        # 输入框
+        params = {}
+        for col in input_columns:
+            params[col] = st.number_input(f"{col}:", value=0.0, step=0.1, format="%.2f")
+
+        # 确认按钮
+        if st.button("确认输入"):
+            st.write("输入参数已确认")
+        
+        collision_probability = predict_collision_probability(params)
+        # 输出按钮
+        if st.button("输出预测结果"):
+            st.write(f"预测的碰撞概率: {collision_probability:.4f}")
+            # use api
+            analysis_result = use_api_part(params,collision_probability)
+
+            if analysis_result:
+                st.markdown("### DeepSeek 分析结果")
+                st.markdown(analysis_result)
+            else:
+                st.markdown("### DeepSeek API 调用失败")
+        
+        # 默认显示的 Markdown 文本框
+        st.markdown("### 智能回答输出")
+        st.markdown("请点击“输出预测结果”按钮以获取分析结果。")
+        
+
 
     elif page == "漏水检测":
         main_box_leaking()

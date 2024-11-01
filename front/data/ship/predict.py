@@ -3,10 +3,10 @@ import numpy as np
 import pandas as pd
 
 # 加载标准化器
-scaler = joblib.load('data/ship/scaler.pkl')
+scaler = joblib.load('front/data/ship/scaler.pkl')
 
 # 加载模型
-model = joblib.load('data/ship/best_collision_model.pkl')
+model = joblib.load('front/data/ship/best_collision_model.pkl')
 
 # 定义输入参数的列名
 input_columns = ['d_sense_max', 'epsilon', 't_react', 'v_ship', 'v_obj', 'd_init', 'N_samples', 'bias_angle', 'time_interval']
@@ -24,14 +24,14 @@ def predict_collision_probability(input_params):
     return collision_probability
 
 
-def get_res():
-    print("请逐行输入以下参数：")
-    input_params = []
+def get_res(input_params):
+    # print("请逐行输入以下参数：")
+    # input_params = []
     
-    # 逐行读取用户输入
-    for col in input_columns:
-        value = float(input(f"{col}: "))
-        input_params.append(value)
+    # # 逐行读取用户输入
+    # for col in input_columns:
+    #     value = float(input(f"{col}: "))
+    #     input_params.append(value)
     
     # 预测碰撞概率
     collision_probability = predict_collision_probability(input_params)
