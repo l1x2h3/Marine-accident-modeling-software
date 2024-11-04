@@ -17,7 +17,7 @@ def predict_collision_probability(input_params):
 
 def analyze_with_deepseek(prompt):
     # 初始化 OpenAI 客户端
-    client = OpenAI(api_key="sk-717a13f51d684c3eb3d10bc9d888f557", base_url="https://api.deepseek.com")
+    client = OpenAI(api_key="xxxxxxxxxxxxxxx", base_url="https://api.deepseek.com")
     
     # 发送请求
     response = client.chat.completions.create(

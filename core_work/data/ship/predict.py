@@ -25,13 +25,13 @@ def predict_collision_probability(input_params):
 
 
 def get_res(input_params):
-    # print("请逐行输入以下参数：")
-    # input_params = []
+    print("请逐行输入以下参数：")
+    input_params = []
     
-    # # 逐行读取用户输入
-    # for col in input_columns:
-    #     value = float(input(f"{col}: "))
-    #     input_params.append(value)
+    # 逐行读取用户输入
+    for col in input_columns:
+        value = float(input(f"{col}: "))
+        input_params.append(value)
     
     # 预测碰撞概率
     collision_probability = predict_collision_probability(input_params)
