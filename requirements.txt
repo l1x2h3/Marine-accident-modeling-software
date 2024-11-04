@@ -8,4 +8,4 @@ mysql-connector-python
 openai
 mysql
 joblib
-pkg-config
+pip-tools
