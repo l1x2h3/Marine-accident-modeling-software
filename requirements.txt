@@ -8,3 +8,4 @@ mysql-connector-python
 openai
 joblib
 pip-tools
+scikit-learn
