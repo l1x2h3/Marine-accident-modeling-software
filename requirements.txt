@@ -6,6 +6,5 @@ plotly
 streamlit-authenticator 
 mysql-connector-python
 openai
-mysql
 joblib
 pip-tools
