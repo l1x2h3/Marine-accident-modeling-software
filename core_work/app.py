@@ -37,6 +37,17 @@ st.markdown(
         unsafe_allow_html=True
     )
 
+st.markdown(
+    """
+    <style>
+    .stApp {
+        background-color: white; /* 自定义背景颜色 */
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # 导航栏
 st.sidebar.title("导航栏")
 page = st.sidebar.radio("选择页面", ["主页","注册", "登录", "航行条件分析与碰撞模拟", "地图模拟","漏水检测" , "单步模拟","文档页面"])

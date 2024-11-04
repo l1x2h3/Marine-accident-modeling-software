@@ -146,3 +146,9 @@ Deepseek调用太慢了，输出也需要等待好久，但是起码可以用了
 分析可能发生搁浅的位置，并绘制概率信息
 雷达缺失的情况该如何实现
 可以描绘出区域边界进行路径规划
+
+pip install pyinstaller --onefile --add-data "core_work/app.py" app.py
+pyinstaller --onefile --add-data=SOURCE:DEST "./core_work/app.py" app.py
+//打包命令
+![alt text](image-13.png)
+我是真没想到build在本地的程序居然真的跑起来了
