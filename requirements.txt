@@ -9,3 +9,4 @@ pyvista
 openai
 pyinstaller
 joblib
+scikit-learn
