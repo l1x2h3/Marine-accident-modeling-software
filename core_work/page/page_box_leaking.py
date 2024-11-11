@@ -2,11 +2,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import streamlit as st
 from mpl_toolkits.mplot3d import Axes3D
+from matplotlib.animation import FuncAnimation
 
 # 定义船体参数
-length = 10  # 船体长度
-width = 5    # 船体宽度
-height = 3   # 船体高度
+length = 30  # 船体长度
+width = 20    # 船体宽度
+height = 15   # 船体高度
 
 # 定义漏水点参数
 leak_points = [(5, 2.5, 0)]  # 漏水点位置 (x, y, z)
@@ -71,58 +72,110 @@ def simulate_leak(length, width, height, leak_points, leak_rate, water_threshold
     return water_heights, times, escape_times, submerged_time
 
 # 可视化结果
-def visualize_results(water_heights, times, escape_times, submerged_time):
+def visualize_results(water_heights, times, escape_times, submerged_time, stair_segments, stair_height):
     # 创建三列
     col1, col2, col3 = st.columns(3)
 
-    # 绘制船体和水面的图表
+    # 绘制水面上升随时间的关系
+    with col1:
+        fig, ax = plt.subplots()
+        ax.plot(times, water_heights, label='Water Height')
+        ax.set_xlabel('Time (s)')
+        ax.set_ylabel('Water Height (m)')
+        ax.legend()
+        st.pyplot(fig)
+
+    # 绘制人逃跑的高度随时间上升的关系
+    with col2:
+        fig, ax = plt.subplots()
+        for speed, escape_time in escape_times.items():
+            if escape_time is not None:
+                escape_heights = []
+                for t in times:
+                    if t <= escape_time:
+                        escape_heights.append(min(height, speed * t))
+                    else:
+                        escape_heights.append(height)
+                ax.plot(times, escape_heights, label=f'Escape Speed: {speed} m/s')
+        ax.set_xlabel('Time (s)')
+        ax.set_ylabel('Escape Height (m)')
+        ax.legend()
+        st.pyplot(fig)
+
+    # 绘制人与水面的距离随时间的关系
+    with col3:
+        fig, ax = plt.subplots()
+        for speed, escape_time in escape_times.items():
+            if escape_time is not None:
+                distance = []
+                for t in times:
+                    if t <= escape_time:
+                        distance.append(min(height, speed * t) - water_heights[int(t / dt)])
+                    else:
+                        distance.append(height - water_heights[int(t / dt)])
+                ax.plot(times, distance, label=f'Escape Speed: {speed} m/s')
+        ax.set_xlabel('Time (s)')
+        ax.set_ylabel('Distance (m)')
+        ax.legend()
+        st.pyplot(fig)
+
+    # 绘制三维动图
     with col2:
         fig = plt.figure(figsize=(10, 8))
         ax = fig.add_subplot(111, projection='3d')
 
-        # 绘制船体
-        x = np.array([0, length, length, 0, 0, length, length, 0])
-        y = np.array([0, 0, width, width, 0, 0, width, width])
-        z = np.array([0, 0, 0, 0, height, height, height, height])
+        # 绘制楼梯
+        stair_x = np.linspace(0, length, stair_segments + 1)
+        stair_y = np.linspace(0, width, stair_segments + 1)
+        stair_z = np.linspace(0, height, stair_segments + 1)
 
-        # 绘制船体的底面
-        ax.plot_surface(x[:4].reshape(2, 2), y[:4].reshape(2, 2), z[:4].reshape(2, 2), color='b', alpha=0.5, label='ship body')
-
-        # 绘制船体的顶面
-        ax.plot_surface(x[4:].reshape(2, 2), y[4:].reshape(2, 2), z[4:].reshape(2, 2), color='b', alpha=0.5)
-
-        # 绘制船体的四个侧面
-        for i in range(4):
-            ax.plot_surface(np.array([x[i], x[i+1], x[i+1], x[i]]).reshape(2, 2), 
-                            np.array([y[i], y[i], y[i+1], y[i+1]]).reshape(2, 2), 
-                            np.array([z[i], z[i], z[i], z[i]]).reshape(2, 2), color='b', alpha=0.5)
-            ax.plot_surface(np.array([x[i], x[i+1], x[i+1], x[i]]).reshape(2, 2), 
-                            np.array([y[i], y[i], y[i+1], y[i+1]]).reshape(2, 2), 
-                            np.array([z[i+4], z[i+4], z[i+4], z[i+4]]).reshape(2, 2), color='b', alpha=0.5)
-
+        for i in range(stair_segments):
+            ax.plot([stair_x[i], stair_x[i+1]], [stair_y[i], stair_y[i]], [stair_z[i], stair_z[i]], color='g', linewidth=2)
+            ax.plot([stair_x[i+1], stair_x[i+1]], [stair_y[i], stair_y[i+1]], [stair_z[i], stair_z[i]], color='g', linewidth=2)
+            ax.plot([stair_x[i+1], stair_x[i+1]], [stair_y[i+1], stair_y[i+1]], [stair_z[i], stair_z[i+1]], color='g', linewidth=2)
 
         # 绘制水面
         water_x = np.linspace(0, length, 10)
         water_y = np.linspace(0, width, 10)
         water_X, water_Y = np.meshgrid(water_x, water_y)
         water_Z = np.full_like(water_X, water_heights[-1])
-        ax.plot_surface(water_X, water_Y, water_Z, color='blue', alpha=0.5, label='water face')
+        ax.plot_surface(water_X, water_Y, water_Z, color='blue', alpha=0.5)
 
-        # 绘制逃离路径
-        for speed, escape_time in escape_times.items():
-            if escape_time is not None:
-                escape_z = np.linspace(0, height, 10)
-                escape_x = np.full_like(escape_z, length / 2)
-                escape_y = np.full_like(escape_z, width / 2)
-                ax.plot(escape_x, escape_y, escape_z, label=f'escape speed: {speed} m/s')
+        # 初始化人的位置
+        people_positions = {speed: [0, 0, 0] for speed in escape_speeds}
+        people_colors = ['r', 'g', 'b']
 
-        ax.set_xlabel('X')
-        ax.set_ylabel('Y')
-        ax.set_zlabel('Z')
-        ax.legend(loc='upper left', bbox_to_anchor=(1.05, 1))
+        # 更新函数
+        def update(frame):
+            # ax.clear()
 
+            # 绘制楼梯
+            for i in range(stair_segments):
+                ax.plot([stair_x[i], stair_x[i+1]], [stair_y[i], stair_y[i]], [stair_z[i], stair_z[i]], color='g', linewidth=2)
+                ax.plot([stair_x[i+1], stair_x[i+1]], [stair_y[i], stair_y[i+1]], [stair_z[i], stair_z[i]], color='g', linewidth=2)
+                ax.plot([stair_x[i+1], stair_x[i+1]], [stair_y[i+1], stair_y[i+1]], [stair_z[i], stair_z[i+1]], color='g', linewidth=2)
+
+            # 绘制水面
+            ax.plot_surface(water_X, water_Y, water_Z, color='blue', alpha=0.5)
+
+            # 更新人的位置
+            for i, (speed, escape_time) in enumerate(escape_times.items()):
+                if escape_time is not None:
+                    if frame * dt <= escape_time:
+                        people_positions[speed][2] = min(height, speed * frame * dt)
+                    ax.scatter(people_positions[speed][0], people_positions[speed][1], people_positions[speed][2], color=people_colors[i], s=50, label=f'Escape Speed: {speed} m/s')
+
+            ax.set_xlabel('X')
+            ax.set_ylabel('Y')
+            ax.set_zlabel('Z')
+            ax.set_title('漏水演示')
+            ax.legend()
+
+        # 创建动画
         st.pyplot(fig)
-
+        if st.button("Run"):
+            ani = FuncAnimation(fig, update, frames=len(times), interval=100)
+            
 
 # Streamlit前端界面
 def main_box_leaking():
@@ -135,11 +188,11 @@ def main_box_leaking():
     st.write("### 船体参数")
     col1, col2, col3 = st.columns(3)
     with col1:
-        length = st.slider("船体长度 (m)", 1, 20, 10)
+        length = st.slider("船体长度 (m)", 1, 40, 30)
     with col2:
-        width = st.slider("船体宽度 (m)", 1, 10, 5)
+        width = st.slider("船体宽度 (m)", 1, 30, 20)
     with col3:
-        height = st.slider("船体高度 (m)", 1, 5, 3)
+        height = st.slider("船体高度 (m)", 1, 20, 15)
 
     st.write("### 漏水点参数")
     col1, col2, col3 = st.columns(3)
@@ -157,31 +210,23 @@ def main_box_leaking():
     with col3:
         escape_speeds.append(st.slider(f"逃离速度 3 (m/s)", 0.1, 5.0, 2.0))
 
+    st.write("### 楼梯参数")
+    col1, col2 = st.columns(2)
+    with col1:
+        stair_segments = st.slider("楼梯段数", 4, 8, 4)
+    with col2:
+        stair_height = st.slider("每段楼梯高度 (m)", 0.1, 1.0, 0.5)
+
     if st.button("更新模拟"):
         st.write("### 模拟结果")
         water_heights, times, escape_times, submerged_time = simulate_leak(length, width, height, leak_points, leak_rate, water_threshold, escape_speeds, dt)
-        visualize_results(water_heights, times, escape_times, submerged_time)
+        visualize_results(water_heights, times, escape_times, submerged_time, stair_segments, stair_height)
 
         st.write(f"淹没时间: {submerged_time:.2f} s")
         for speed, escape_time in escape_times.items():
             st.write(f"逃离速度 {speed} m/s 的逃离时间: {escape_time:.2f} s")
 
-        # 分三栏绘制逃离路径
-        st.write("### 逃离路径")
-        col1, col2, col3 = st.columns(3)
-
-        for i, (speed, escape_time) in enumerate(escape_times.items()):
-            with col1 if i == 0 else col2 if i == 1 else col3:
-                if escape_time is not None:
-                    fig, ax = plt.subplots()
-                    ax.plot(times, water_heights, label='Water Height')
-                    ax.axhline(y=height - speed * escape_time, color='r', linestyle='--', label=f'Escape Speed: {speed} m/s')
-                    ax.set_xlabel('Time (s)')
-                    ax.set_ylabel('Water Height (m)')
-                    ax.legend()
-                    st.pyplot(fig)
-                else:
-                    st.write(f"逃离速度 {speed} m/s 未达到逃离条件")
-
 if __name__ == "__main__":
     main_box_leaking()
+
+# 这算法出了大问题，同时图片也不对，整个逻辑需要修改
