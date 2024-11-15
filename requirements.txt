@@ -6,3 +6,8 @@ plotly
 streamlit-authenticator 
 mysql-connector-python
 mysql
+pyvista
+openai
+pyinstaller
+joblib
+scikit-learn

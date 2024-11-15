@@ -4,7 +4,6 @@ streamlit run app.py
 
 // 绝对路径
 streamlit run c:/Users/18241/Desktop/myproject/front/app.py
-streamlit run d:/homework/大四上学期/大创/dachuang/front/app.py
 
 -i https://pypi.tuna.tsinghua.edu.cn/simple
 
@@ -28,7 +27,3 @@ AI图片生成：
 
 github仓库
     https://github.com/l1x2h3/dachuang/tree/main
-
-    在当前的环境中安装包：
-    d:\homework\大四上学期\大创\dachuang\.venv\Scripts\python.exe -m pip install pyyaml  
-
