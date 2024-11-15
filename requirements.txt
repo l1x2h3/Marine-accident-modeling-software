@@ -1,12 +1,10 @@
-streamlit
+﻿streamlit
 numpy
 pandas
 matplotlib
 plotly
 streamlit-authenticator 
-mysqlclient
 mysql-connector-python
-mysql
 pyvista
 openai
 pyinstaller
