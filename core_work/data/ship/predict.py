@@ -1,12 +1,13 @@
+import os
 import joblib
 import numpy as np
 import pandas as pd
 
-# 加载标准化器
-scaler = joblib.load('core_work/data/temp/scaler.pkl')
-
-# 加载模型
-model = joblib.load('core_work/data/temp/best_collision_model.pkl')
+current_directory = os.getcwd()
+relative_path1 = os.path.join(current_directory, 'data', 'temp', 'scaler.pkl')
+scaler = joblib.load(relative_path1)
+relative_path2 = os.path.join(current_directory, 'data', 'temp', 'best_collision_model.pkl')
+model = joblib.load(relative_path2)
 
 # 定义输入参数的列名
 input_columns = ['d_sense_max', 'epsilon', 't_react', 'v_ship', 'v_obj', 'd_init', 'N_samples', 'bias_angle', 'time_interval']

@@ -17,11 +17,12 @@ from database.log_reg import register_user, check_user
 from page.page_enter import page_enter_part
 from data.ship.predict import predict_collision_probability
 from page.page_deepseek_api import use_api_part
+import os
 
 # 加载图片
-coast_image = Image.open("fig/coast.png")
-island_image = Image.open("fig/island1.png")
-ship_image = Image.open("fig/ship.png")
+coast_image = Image.open("../fig/coast.png")
+island_image = Image.open("../fig/island1.png")
+ship_image = Image.open("../fig/ship.png")
 
 # 缩放海岸线图片
 coast_image = coast_image.resize((100, 100))
@@ -48,6 +49,24 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# 自定义CSS样式
+st.markdown(
+    """
+    <style>
+        .stHeading > div > h1 {
+            font-size: 45px;
+        }
+        .stRadio > label > div > p {
+            font-size: 18px;
+        }
+        .stRadio > div > label > div:nth-of-type(2) > div > p {
+            font-size: 22px;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
 # 导航栏
 st.sidebar.title("导航栏")
 page = st.sidebar.radio("选择页面", ["主页","注册", "登录", "航行条件分析与碰撞模拟", "地图模拟","漏水检测" , "单步模拟","文档页面"])
@@ -69,8 +88,10 @@ elif page == "注册":
     col1, col2, col3 = st.columns([1, 1, 1])
     with col1:
         st.write("")  # 右侧空白列
-    with col2:
-        st.image("fig/logo.png", caption=" ", use_column_width=True)
+    with col2: 
+        current_directory = os.getcwd()
+        relative_path1 = os.path.join(current_directory, '..', 'fig', 'logo.png')
+        st.image(relative_path1, caption=" ", use_column_width=True)
     with col3:
         st.write("")  # 右侧空白列
     st.write("")  # 右侧空白列
@@ -104,7 +125,9 @@ elif page == "登录":
     with col1:
         st.write("")  # 右侧空白列
     with col2:
-        st.image("fig/logo.png", caption=" ", use_column_width=True)
+        current_directory = os.getcwd()
+        relative_path2 = os.path.join(current_directory, '..', 'fig', 'logo.png')
+        st.image(relative_path2, caption=" ", use_column_width=True)
     with col3:
         st.write("")  # 右侧空白列
     st.write("")  # 右侧空白列

@@ -4,9 +4,9 @@ import plotly.graph_objects as go
 from PIL import Image
 import pandas as pd
 
-coast_image = Image.open("fig/coast.png")
-island_image = Image.open("fig/island1.png")
-ship_image = Image.open("fig/ship.png")
+coast_image = Image.open("../fig/coast.png")
+island_image = Image.open("../fig/island1.png")
+ship_image = Image.open("../fig/ship.png")
 
 # 缩放海岸线图片
 coast_image = coast_image.resize((100, 100))

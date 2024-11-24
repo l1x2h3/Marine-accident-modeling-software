@@ -69,11 +69,17 @@ def page_enter_part():
     # 创建三列，中间一列放置图片
     col1, col2, col3 = st.columns([1, 1, 1])
     with col1:
-        st.image("fig/coast.png", caption="海上岛礁路径展示", use_column_width=True)
+        current_directory = os.getcwd()
+        relative_path1 = os.path.join(current_directory, '..', 'fig', 'coast.png')
+        st.image(relative_path1, caption="海上岛礁路径展示", use_column_width=True)
     with col2:
-        st.image("fig/logo.png", caption="航行器logo", use_column_width=True)
+        current_directory = os.getcwd()
+        relative_path2 = os.path.join(current_directory, '..', 'fig', 'logo.png')
+        st.image(relative_path2, caption="航行器logo", use_column_width=True)
     with col3:
-        st.image("fig/ship.png", caption="船只展示", use_column_width=True)
+        current_directory = os.getcwd()
+        relative_path3 = os.path.join(current_directory, '..', 'fig', 'ship.png')
+        st.image(relative_path3, caption="船只展示", use_column_width=True)
 
     # 预留开发区域
     st.markdown(
@@ -99,9 +105,13 @@ def page_enter_part():
     # 创建三列，中间一列放置图片
     col1, col2= st.columns([1, 1])
     with col1:
-        st.image("fig/distribution.png", caption="合成数据分布", use_column_width=True)
+        current_directory = os.getcwd()
+        relative_path4 = os.path.join(current_directory, '..', 'fig', 'distribution.png')
+        st.image(relative_path4, caption="合成数据分布", use_column_width=True)
     with col2:
-        st.image("fig/workflow.png", caption="工作流程展示", use_column_width=True)
+        current_directory = os.getcwd()
+        relative_path5 = os.path.join(current_directory, '..', 'fig', 'workflow.png')
+        st.image(relative_path5, caption="工作流程展示", use_column_width=True)
 
 
     # 底部信息
