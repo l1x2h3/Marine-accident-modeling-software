@@ -154,3 +154,19 @@ pyinstaller --onefile --add-data=SOURCE:DEST "./core_work/app.py" app.py
 我是真没想到build在本地的程序居然真的跑起来了
 
 请你基于streamlit实现在一个漏水逃脱模拟流程，实现水面以一定的速度匀速上涨，人逃跑的路基是类似于在三维空间爬楼梯的折线路径，给定楼梯的斜面长度，楼梯的层数，以及楼梯相连区域平面的长度，人在爬楼梯速度会减半，给定人的逃跑速度（这些参数都用streamlit输入框输入，并给定适当初值），用FuncAnimation动态绘制水面逐渐上升的过程，以及用点的移动表示人逃跑的位置，点击确认模拟即可生成动图，直到重点停止，并在旁边写明图的label标注，最后在下方总体绘制三张图，分别是水面高度随时间，人的高度随时间，人与水面高度差随时间的变化曲线
+
+
+1.把碰撞模拟的物理模型写上去
+2.设计表格，并美化结构
+![alt text](image-14.png)
+![alt text](image-15.png)
+![alt text](image-16.png)  移动到主页面上
+
+
+1.任务1
+![alt text](image-17.png)
+2.任务2
+![alt text](image-18.png)
+3.任务3
+![alt text](image-19.png)
+![alt text](image-20.png)
