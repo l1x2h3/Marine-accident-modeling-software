@@ -6,6 +6,7 @@ from page.utils import calculate_line_parameters,calculate_points_on_segment,dt
 # constants
 from page.utils import length,width,height,leak_points,leak_rate,water_height,water_threshold,escape_speeds,escape_times,submerged_time
 import json
+import pandas as pd
 
 # 模拟漏水过程
 def simulate_leak(length, width, height, leak_points, leak_rate, water_threshold, escape_speeds, dt):
@@ -227,9 +228,29 @@ def main_box_leaking():
         water_heights, times, escape_times, submerged_time = simulate_leak(length, width, height, leak_points, leak_rate, water_threshold, escape_speeds, dt)
         visualize_results(water_heights, times, escape_times, submerged_time, escape_points)
 
-        st.write(f"淹没时间: {submerged_time:.2f} s")
+        '''
         for speed, escape_time in escape_times.items():
             st.write(f"逃离速度 {speed} m/s 的逃离时间: {escape_time:.2f} s")
+        '''
+
+        data = {
+            '逃离速度 (m/s)': list(escape_times.keys()),
+            '逃离时间 (s)': [f"{value:.2f}" for value in escape_times.values()]
+        }
+        st.markdown(
+        """
+        <style>
+            .col_heading {
+                color: red;
+                text-align: left;
+            }
+        </style>
+        """,
+        unsafe_allow_html=True,
+        )
+        df = pd.DataFrame(data)
+        st.table(df)
+        st.write(f"淹没时间: {submerged_time:.2f} s")
 
 if __name__ == "__main__":
     main_box_leaking()

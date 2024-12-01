@@ -50,6 +50,13 @@ def ship_collision_part():
         """,
         unsafe_allow_html=True
     )
+
+    st.image("../fig/ship_collision1.png", use_column_width=True)
+    st.image("../fig/ship_collision2.png", use_column_width=True)
+    st.image("../fig/ship_collision3.png", use_column_width=True)
+    st.image("../fig/ship_collision4.png", use_column_width=True)
+    st.image("../fig/ship_collision5.png", use_column_width=True)
+
     # 输入参数
     st.sidebar.header("输入参数")
     weather = st.sidebar.selectbox("天气条件", ["sunny", "cloudy", "rainy", "stormy"])

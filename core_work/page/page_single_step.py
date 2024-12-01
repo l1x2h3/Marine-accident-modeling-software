@@ -68,21 +68,21 @@ def use_single_step():
     # 副标题*************************************************************************************
 
     # 侧边栏*************************************************************************************
-    st.sidebar.header("Ship Parameters")
-    ship1_x = st.sidebar.number_input("Ship 1 Initial X", value=0.0)
-    ship1_y = st.sidebar.number_input("Ship 1 Initial Y", value=0.0)
-    ship1_vx = st.sidebar.number_input("Ship 1 Velocity X", value=1.0)
-    ship1_vy = st.sidebar.number_input("Ship 1 Velocity Y", value=0.0)
-    ship1_length = st.sidebar.number_input("Ship 1 Length", value=4.0)
-    ship1_width = st.sidebar.number_input("Ship 1 Width", value=2.0)
-    ship2_x = st.sidebar.number_input("Ship 2 Initial X", value=10.0)
-    ship2_y = st.sidebar.number_input("Ship 2 Initial Y", value=0.0)
-    ship2_vx = st.sidebar.number_input("Ship 2 Velocity X", value=-1.0)
-    ship2_vy = st.sidebar.number_input("Ship 2 Velocity Y", value=0.0)
-    ship2_length = st.sidebar.number_input("Ship 2 Length", value=4.0)
-    ship2_width = st.sidebar.number_input("Ship 2 Width", value=2.0)
-    turn_distance = st.sidebar.number_input("Turn Distance", value=5.0)
-    turn_direction = st.sidebar.selectbox("Turn Direction", ["left", "right"])
+    st.sidebar.header("船体参数(Ship Parameters)")
+    ship1_x = st.sidebar.number_input("1号船初始x坐标(Ship 1 Initial X)", value=0.0)
+    ship1_y = st.sidebar.number_input("1号船初始y坐标(Ship 1 Initial Y)", value=0.0)
+    ship1_vx = st.sidebar.number_input("1号船x速度(Ship 1 Velocity X)", value=1.0)
+    ship1_vy = st.sidebar.number_input("1号船y速度(Ship 1 Velocity Y)", value=0.0)
+    ship1_length = st.sidebar.number_input("1号船长度(Ship 1 Length)", value=4.0)
+    ship1_width = st.sidebar.number_input("1号船宽度(Ship 1 Width)", value=2.0)
+    ship2_x = st.sidebar.number_input("2号船初始x坐标(Ship 2 Initial X)", value=10.0)
+    ship2_y = st.sidebar.number_input("2号船初始y坐标(Ship 2 Initial Y)", value=0.0)
+    ship2_vx = st.sidebar.number_input("2号船x速度(Ship 2 Velocity X)", value=-1.0)
+    ship2_vy = st.sidebar.number_input("2号船y速度(Ship 2 Velocity Y)", value=0.0)
+    ship2_length = st.sidebar.number_input("2号船长度(Ship 2 Length)", value=4.0)
+    ship2_width = st.sidebar.number_input("2号船宽度(Ship 2 Width)", value=2.0)
+    turn_distance = st.sidebar.number_input("转弯距离(Turn Distance)", value=5.0)
+    turn_direction = st.sidebar.selectbox("转弯方向(Turn Direction)", ["left", "right"])
     ship1_shape = create_ship_shape(ship1_length, ship1_width)
     ship2_shape = create_ship_shape(ship2_length, ship2_width)
     # 侧边栏*************************************************************************************
@@ -93,6 +93,16 @@ def use_single_step():
     # 初始化*************************************************************************************
 
     # 四个按钮***********************************************************************************
+    st.markdown(
+    """
+    <style>
+        .stButton > div:nth-of-type(1) button {
+            width: 150px;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True,
+    )
     button_col1, button_col2, button_col3, button_col4 = st.columns(4)
     with button_col1:
         if st.button("Step", key="StepButton", help="Advance simulation by one step"):
