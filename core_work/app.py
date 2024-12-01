@@ -17,6 +17,7 @@ from database.log_reg import register_user, check_user
 from page.page_enter import page_enter_part
 from data.ship.predict import predict_collision_probability
 from page.page_deepseek_api import use_api_part
+from page.page_markdown import use_page_markdown
 
 # 加载图片
 coast_image = Image.open("fig/coast.png")
@@ -151,6 +152,16 @@ if 'logged_in' in st.session_state and st.session_state['logged_in']:
             params['d_init'] = st.number_input("距离初始值:", value=300.0, step=0.1, format="%.2f")
             params['time_interval'] = st.number_input("时间误差限度:", value=0.2, step=0.1, format="%.2f")
 
+        st.markdown(
+            """
+            <style>
+                .stButton > div:nth-of-type(1) button {
+                    width: 300px;
+                }
+            </style>
+            """,
+            unsafe_allow_html=True,
+        )
         if st.button("确认输入"):
             st.write("输入参数已确认")
         
@@ -170,6 +181,8 @@ if 'logged_in' in st.session_state and st.session_state['logged_in']:
         # 默认显示的 Markdown 文本框
         st.markdown("### 智能回答输出")
         st.markdown("请点击“输出预测结果”按钮以获取分析结果。")
+        use_page_markdown()
+        
         
     elif page == "漏水检测":
         main_box_leaking()

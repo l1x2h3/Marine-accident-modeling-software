@@ -58,6 +58,16 @@ def ship_collision_part():
     num_ships = st.sidebar.slider("船只数量", min_value=2, max_value=30, step=1)
 
     # 分析按钮
+    st.markdown(
+    """
+    <style>
+        .stButton > div:nth-of-type(1) button {
+            width: 150px;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True,
+    )
     if st.sidebar.button("分析"):
         # 调用模型函数
         probability, impact = predict_accident_probability(weather, ship_type, speed)

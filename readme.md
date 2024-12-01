@@ -27,3 +27,8 @@ AI图片生成：
 
 github仓库
     https://github.com/l1x2h3/dachuang/tree/main
+
+
+$$
+\begin{pmatrix} x' \\\\ y' \end{pmatrix} = \begin{pmatrix} \cos(\theta) & -\sin(\theta) \\\\ \sin(\theta) & \cos(\theta) \end{pmatrix} \begin{pmatrix} x \\\\ y \end{pmatrix}
+$$

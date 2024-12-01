@@ -197,7 +197,8 @@ def map_simu_part():
         st.plotly_chart(fig)
 
         # 添加标注信息
-        st.write("标注信息：")
+        # st.write("标注信息：")
+        st.markdown("**标注信息：**")
         cols = st.columns(5)  # 创建5列
         cols[0].write("- 黑色区域：海岸线")
         cols[1].write("- 灰色区域：岛礁")
@@ -206,14 +207,31 @@ def map_simu_part():
         cols[4].write("- 红色点：船只目的地")
 
         # 显示出发时间和到达时间
-        st.write("船只出发时间和到达时间：")
-        cols1 = st.columns(num_ships)
-        for i in range(num_ships):
-            cols1[i].write(f"船只 {i+1}: 出发时间 {start_times[i]:.2f} 秒, 到达时间 {end_times[i]:.2f} 秒")
-            # st.write(f"船只 {i+1}: 出发时间 {start_times[i]:.2f} 秒, 到达时间 {end_times[i]:.2f} 秒")
+        # st.write("船只出发时间和到达时间：")
+        # cols1 = st.columns(num_ships)
+        # for i in range(num_ships):
+        #     cols1[i].write(f"船只 {i+1}: 出发时间 {start_times[i]:.2f} 秒, 到达时间 {end_times[i]:.2f} 秒")
+        #     # st.write(f"船只 {i+1}: 出发时间 {start_times[i]:.2f} 秒, 到达时间 {end_times[i]:.2f} 秒")
+
+        st.markdown("**船只出发时间和到达时间：**")
+        data = {
+            "船只编号": [f"船只 {i+1}" for i in range(num_ships)],
+            "出发时间 (秒)": [f"{start_times[i]:.2f}" for i in range(num_ships)],
+            "到达时间 (秒)": [f"{end_times[i]:.2f}" for i in range(num_ships)]
+        }
+        df = pd.DataFrame(data)
+        # st.markdown("""
+        # <style>
+        #     .dataframe th, .dataframe td {
+        #         text-align: center;
+        #     }
+        # </style>
+        # """, unsafe_allow_html=True)
+        st.table(df)
 
         # 显示出发点和目的地的坐标
-        st.write("出发点和目的地的坐标：")
+        st.markdown("**出发点和目的地的坐标：**")
+        # st.write("出发点和目的地的坐标：")
         data = {
             "船只编号": [f"船只 {i+1}" for i in range(num_ships)],
             "出发点 X坐标": [trajectories[0, i, 0] for i in range(num_ships)],
