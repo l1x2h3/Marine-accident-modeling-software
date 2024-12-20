@@ -1,8 +1,9 @@
-这里只展示了部分执行程序的命令，发行版建议使用release
-master分支上有python的库，内存较大，不建议爬取
-readme文档信息不全，由于图片位置的缘故，具体内容请产看readme文件夹里面的文档
-联系方式： 1824161941@qq.com
-lixuhui123@mail.nwpu.edu.cn
+* 这里只展示了部分执行程序的命令，发行版建议使用release
+* master分支上有python的库，内存较大，不建议爬取
+* readme文档信息不全，由于图片位置的缘故，具体内容请产看readme文件夹里面的文档
+* 联系方式： 1824161941@qq.com
+    lixuhui123@mail.nwpu.edu.cn
+
 
 pip install streamlit pandas numpy matplotlib plotly
 
