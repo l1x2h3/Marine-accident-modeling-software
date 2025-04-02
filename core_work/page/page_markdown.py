@@ -104,7 +104,7 @@ def use_page_markdown():
     st.markdown(markdown_content)
     col1, col2, col3 = st.columns([1, 1, 1])
     with col2:
-        st.image("fig/mk1.png", caption="碰撞的物理-数学方程图形", use_column_width=True)
+        st.image("fig/mk1.png", caption="碰撞的物理-数学方程图形", use_container_width=True)
   
     st.markdown(markdown_content2)
     col1, col2, col3 = st.columns([1, 1, 1])

@@ -10,7 +10,7 @@ pip install streamlit pandas numpy matplotlib plotly
 streamlit run app.py
 
 // 绝对路径
-streamlit run c:/Users/18241/Desktop/myproject/front/app.py
+streamlit run d:/dachuang/core_work/app.py
 
 -i https://pypi.tuna.tsinghua.edu.cn/simple
 

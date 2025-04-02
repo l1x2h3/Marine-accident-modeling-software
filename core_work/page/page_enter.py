@@ -69,11 +69,11 @@ def page_enter_part():
     # 创建三列，中间一列放置图片
     col1, col2, col3 = st.columns([1, 1, 1])
     with col1:
-        st.image("fig/coast.png", caption="海上岛礁路径展示", use_column_width=True)
+        st.image("fig/coast.png", caption="海上岛礁路径展示", use_container_width=True)
     with col2:
-        st.image("fig/logo.png", caption="航行器logo", use_column_width=True)
+        st.image("fig/logo.png", caption="航行器logo", use_container_width=True)
     with col3:
-        st.image("fig/ship.png", caption="船只展示", use_column_width=True)
+        st.image("fig/ship.png", caption="船只展示", use_container_width=True)
 
     # 预留开发区域
     st.markdown(
@@ -99,9 +99,9 @@ def page_enter_part():
     # 创建三列，中间一列放置图片
     col1, col2= st.columns([1, 1])
     with col1:
-        st.image("fig/distribution.png", caption="合成数据分布", use_column_width=True)
+        st.image("fig/distribution.png", caption="合成数据分布", use_container_width=True)
     with col2:
-        st.image("fig/workflow.png", caption="工作流程展示", use_column_width=True)
+        st.image("fig/workflow.png", caption="工作流程展示", use_container_width=True)
 
 
     # 底部信息

@@ -71,7 +71,7 @@ elif page == "注册":
     with col1:
         st.write("")  # 右侧空白列
     with col2:
-        st.image("fig/logo.png", caption=" ", use_column_width=True)
+        st.image("fig/logo.png", caption=" ", use_container_width=True)
     with col3:
         st.write("")  # 右侧空白列
     st.write("")  # 右侧空白列
@@ -105,7 +105,7 @@ elif page == "登录":
     with col1:
         st.write("")  # 右侧空白列
     with col2:
-        st.image("fig/logo.png", caption=" ", use_column_width=True)
+        st.image("fig/logo.png", caption=" ", use_container_width=True)
     with col3:
         st.write("")  # 右侧空白列
     st.write("")  # 右侧空白列
